@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useActionState } from "react";
 import { register } from "../actions/auth";
-import DotLoader from "~/components/DotLoader/DotLoader";
+import DotLoader from "../components/DotLoader/DotLoader";
 
 const SignUpPage = () => {
   const [errorMessage, formAction, isPending] = useActionState(

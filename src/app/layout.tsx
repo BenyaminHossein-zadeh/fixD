@@ -6,7 +6,7 @@ import { type Metadata } from "next";
 export const metadata: Metadata = {
   title: "Drawing",
   description: "Drawing",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/fixd_logo.svg" }],
 };
 
 export const inter = Inter({ subsets: ["latin"], display: "swap" });
