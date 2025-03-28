@@ -3,6 +3,8 @@ import React, { memo } from "react";
 import { LayerType } from "~/types";
 import Rectangle from "./Rectangle";
 import Ellipse from "./Ellipse";
+import Path from "./Path";
+import { colorToCss } from "~/utils";
 
 interface LayerComponentProps {
   id: string;
@@ -20,6 +22,18 @@ const LayerComponent = memo(({ id }: LayerComponentProps) => {
 
     case LayerType.Ellipse:
       return <Ellipse id={id} layer={layer} />;
+
+    case LayerType.Path:
+      return (
+        <Path
+          points={layer.points}
+          x={layer.x}
+          y={layer.y}
+          fill={layer.fill ? colorToCss(layer.fill) : "#ccc"}
+          stroke={layer.stroke ? colorToCss(layer.stroke) : "#ccc"}
+          opacity={layer.opacity}
+        />
+      );
 
     default:
       return null;
