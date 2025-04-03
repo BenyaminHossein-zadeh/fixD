@@ -1,6 +1,11 @@
 "use client";
 
-import { useMutation, useSelf, useStorage } from "@liveblocks/react";
+import {
+  useMutation,
+  useMyPresence,
+  useSelf,
+  useStorage,
+} from "@liveblocks/react";
 import {
   colorToCss,
   penPointsToPathLayer,
@@ -24,6 +29,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Toolsbar from "../toolsbar/Toolsbar";
 import { number } from "zod";
 import Path from "./Path";
+import SelectionBox from "./SelectionBox";
 
 const MAX_LAYERS = 100;
 
@@ -31,10 +37,31 @@ const Canvas = () => {
   const roomColor = useStorage((root) => root.roomColor);
   const layerIds = useStorage((root) => root.layerIds);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
+  const presence = useMyPresence();
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None,
   });
   const [camera, setCamera] = useState<Camera>({ x: 0, y: 0, zoom: 1 });
+
+
+  const handleOnLayerPointerDown = useMutation(
+    ({ self, setMyPresence }, e: React.PointerEvent, layerId: string) => {
+      if (
+        canvasState.mode === CanvasMode.Pencil ||
+        canvasState.mode === CanvasMode.Inserting
+      ) {
+        return;
+      }
+      e.stopPropagation();
+      if (!self.presence.selection.includes(layerId)) {
+        setMyPresence({
+          selection: [layerId],
+        });
+      }
+
+    },
+    [canvasState.mode],
+  );
 
   const insertLayer = useMutation(
     (
@@ -240,8 +267,13 @@ const Canvas = () => {
               }}
             >
               {layerIds?.map((layerId) => (
-                <LayerComponent key={layerId} id={layerId} />
+                <LayerComponent
+                  key={layerId}
+                  id={layerId}
+                  onLayerPointerDown={handleOnLayerPointerDown}
+                />
               ))}
+              <SelectionBox />
               {pencilDraft !== null && pencilDraft.length > 0 && (
                 <Path
                   x={0}

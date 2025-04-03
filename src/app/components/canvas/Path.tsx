@@ -10,9 +10,18 @@ interface Props {
   fill: string;
   opacity: number;
   points: number[][];
+  onPointerDown?: (e: React.PointerEvent) => void;
 }
 
-const Path = ({ x, y, stroke, fill, opacity, points }:Props) => {
+const Path = ({
+  x,
+  y,
+  stroke,
+  fill,
+  opacity,
+  points,
+  onPointerDown,
+}: Props) => {
   const pathData = getSvgPathFromStroke(
     getStroke(points, {
       size: 16,
@@ -24,7 +33,8 @@ const Path = ({ x, y, stroke, fill, opacity, points }:Props) => {
 
   return (
     <path
-    style={{transform:`translate(${x}px, ${y}px)`}}
+      onPointerDown={onPointerDown}
+      style={{ transform: `translate(${x}px, ${y}px)` }}
       d={pathData}
       fill={fill}
       stroke={stroke ?? "#ccc"}

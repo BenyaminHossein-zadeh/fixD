@@ -5,14 +5,16 @@ import { colorToCss } from "~/utils";
 interface Props {
   id: string;
   layer: RectangleLayer;
+  onPointerDown: (e: React.PointerEvent, layerId: string) => void;
 }
 
-const Rectangle = ({ id, layer }: Props) => {
+const Rectangle = ({ id, layer, onPointerDown }: Props) => {
   const { x, y, width, height, fill, opacity, stroke, cornerRadius } = layer;
 
   return (
     <g>
       <rect
+        onPointerDown={(e) => onPointerDown(e, id)}
         style={{ transform: `translate(${x}px, ${y}px)` }}
         width={width}
         height={height}

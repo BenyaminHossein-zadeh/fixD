@@ -1,14 +1,15 @@
 import { useMutation } from "@liveblocks/react";
 import React, { useEffect, useRef, useState } from "react";
-import { EllipseLayer, TextLayer } from "~/types";
+import { TextLayer } from "~/types";
 import { colorToCss } from "~/utils";
 
 interface Props {
   id: string;
   layer: TextLayer;
+  onPointerDown: (e: React.PointerEvent, layerId: string) => void;
 }
 
-const Text = ({ id, layer }: Props) => {
+const Text = ({ id, layer, onPointerDown }: Props) => {
   const {
     x,
     y,
@@ -86,6 +87,7 @@ const Text = ({ id, layer }: Props) => {
         </foreignObject>
       ) : (
         <text
+          onPointerDown={(e) => onPointerDown(e, id)}
           x={x}
           y={y + fontSize}
           fontSize={fontSize}

@@ -5,14 +5,16 @@ import { colorToCss } from "~/utils";
 interface Props {
   id: string;
   layer: EllipseLayer;
+  onPointerDown: (e: React.PointerEvent, layerId: string) => void;
 }
 
-const Ellipse = ({ id, layer }: Props) => {
+const Ellipse = ({ id, layer, onPointerDown }: Props) => {
   const { x, y, width, height, fill, opacity, stroke } = layer;
 
   return (
     <g>
       <ellipse
+        onPointerDown={(e) => onPointerDown(e, id)}
         style={{ transform: `translate(${x}px, ${y}px)` }}
         fill={fill ? colorToCss(fill) : "#ccc"}
         stroke={stroke ? colorToCss(stroke) : "#ccc"}
