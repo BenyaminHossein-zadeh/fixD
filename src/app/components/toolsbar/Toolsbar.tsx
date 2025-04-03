@@ -5,6 +5,7 @@ import ShapeSelectionButton from "./ShapeSelectionButton";
 import ZoomInButton from "./ZoomInButton";
 import ZoomOutButton from "./ZoomOutButton";
 import PencilButton from "./PencilButton";
+import TextButton from "./TextButton";
 
 interface Props {
   canvasState: CanvasState;
@@ -55,6 +56,18 @@ const Toolsbar = ({
         <PencilButton
           isActive={canvasState.mode === CanvasMode.Pencil}
           onClick={() => setCanvasState({ mode: CanvasMode.Pencil })}
+        />
+        <TextButton
+          isActive={
+            canvasState.mode === CanvasMode.Inserting &&
+            canvasState.layerType === LayerType.Text
+          }
+          onClick={() =>
+            setCanvasState({
+              mode: CanvasMode.Inserting,
+              layerType: LayerType.Text,
+            })
+          }
         />
         <div className="w-px self-stretch bg-black/10"></div>
         <div className="flex items-center justify-center">

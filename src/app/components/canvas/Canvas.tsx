@@ -73,6 +73,22 @@ const Canvas = () => {
           stroke: { r: 217, g: 217, b: 217 },
           opacity: 100,
         });
+      } else if (layerType === LayerType.Text) {
+        layer = new LiveObject<TextLayer>({
+          type: LayerType.Text,
+          x: position.x,
+          y: position.y,
+          text: "New Text",
+          height: 100,
+          width: 100,
+          fontSize: 16,
+          fontWeight: 400,
+          fontFamily: "Inter",
+          fill: { r: 217, g: 217, b: 217 },
+          stroke: { r: 217, g: 217, b: 217 },
+          opacity: 100,
+        });
+        setCanvasState({ mode: CanvasMode.None });
       }
 
       if (layer) {
@@ -97,7 +113,7 @@ const Canvas = () => {
       setMyPresence({ pencilDraft: null });
       return;
     }
-    console.log(penPointsToPathLayer(pencilDraft, { r: 217, g: 217, b: 217 }))
+    console.log(penPointsToPathLayer(pencilDraft, { r: 217, g: 217, b: 217 }));
 
     const id = nanoid();
     liveLayers.set(

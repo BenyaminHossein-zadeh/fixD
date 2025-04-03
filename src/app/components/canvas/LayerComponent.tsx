@@ -5,6 +5,7 @@ import Rectangle from "./Rectangle";
 import Ellipse from "./Ellipse";
 import Path from "./Path";
 import { colorToCss } from "~/utils";
+import Text from "./Text";
 
 interface LayerComponentProps {
   id: string;
@@ -34,6 +35,8 @@ const LayerComponent = memo(({ id }: LayerComponentProps) => {
           opacity={layer.opacity}
         />
       );
+    case LayerType.Text:
+      return <Text id={id} layer={layer} />;
 
     default:
       return null;

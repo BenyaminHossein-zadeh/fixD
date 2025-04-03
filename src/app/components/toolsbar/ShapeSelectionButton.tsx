@@ -40,7 +40,8 @@ const ShapeSelectionButton = ({ isActive, canvasState, onClick }: Props) => {
           <IoSquareOutline className="size-5" />
         )}
         {canvasState.mode === CanvasMode.Inserting &&
-          canvasState.layerType === LayerType.Rectangle && (
+          (canvasState.layerType === LayerType.Rectangle ||
+            canvasState.layerType === LayerType.Text) && (
             <IoSquareOutline className="size-5" />
           )}
         {canvasState.mode === CanvasMode.Inserting &&
