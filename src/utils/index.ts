@@ -114,10 +114,11 @@ export function getSvgPathFromStroke(stroke: number[][]) {
 
 export const pointerEventToCanvasPoint = (
   e: React.PointerEvent,
-  camera: Camera,
-): Point => {
+  camera: Camera
+) => {
+  // Account for both camera position and zoom level
   return {
-    x: Math.round(e.clientX) - camera.x,
-    y: Math.round(e.clientY) - camera.y,
+    x: (e.clientX - camera.x) / camera.zoom,
+    y: (e.clientY - camera.y) / camera.zoom,
   };
 };
