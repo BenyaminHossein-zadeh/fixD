@@ -171,6 +171,7 @@ const Canvas = () => {
     setMyPresence({ pencilDraft: null });
     setCanvasState({ mode: CanvasMode.Pencil });
   }, []);
+  
   const translateSelectedLayers = useMutation(
     ({ storage, self }, point: Point) => {
       if (canvasState.mode !== CanvasMode.Translating) {

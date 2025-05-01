@@ -32,15 +32,27 @@ const Path = ({
   );
 
   return (
-    <path
-      onPointerDown={onPointerDown}
-      style={{ transform: `translate(${x}px, ${y}px)` }}
-      d={pathData}
-      fill={fill}
-      stroke={stroke ?? "#ccc"}
-      strokeWidth={1}
-      opacity={`${opacity ?? 100}%`}
-    />
+    <g className="group">
+      <path
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+        d={pathData}
+        fill="none"
+        stroke="#0b99ff"
+        strokeWidth={4}
+        className="pointer-events-none opacity-0 group-hover:opacity-100"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        onPointerDown={onPointerDown}
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+        d={pathData}
+        fill={fill}
+        stroke={stroke ?? "#ccc"}
+        strokeWidth={1}
+        opacity={`${opacity ?? 100}%`}
+      />
+    </g>
   );
 };
 
