@@ -3,6 +3,7 @@ import { number } from "zod";
 import {
   Camera,
   Color,
+  Layer,
   LayerType,
   PathLayer,
   Point,
@@ -14,6 +15,13 @@ export function colorToCss(color: Color): string {
   const { r, g, b } = color;
   const toHex = (value: number) => value.toString(16).padStart(2, "0");
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+export function hexToRGB(hex: string): Color {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return { r, g, b };
 }
 
 export function resizeBounds(bounds: XYWH, corner: Side, point: Point): XYWH {
@@ -121,3 +129,32 @@ export const pointerEventToCanvasPoint = (
     y: (e.clientY - camera.y) / camera.zoom,
   };
 };
+
+export function findIntersectionLayerWithRectangle(
+  layerIds: readonly string[],
+  layers: ReadonlyMap<string, Layer>,
+  a: Point,
+  b: Point,
+) {
+  const rect = {
+    x: Math.min(a.x, b.x),
+    y: Math.min(a.y, b.y),
+    width: Math.abs(a.x - b.x),
+    height: Math.abs(a.y - b.y),
+  };
+  const ids = [];
+  for (const layerId of layerIds) {
+    const layer = layers.get(layerId);
+    if (layer == null) continue;
+    const { x, y, width, height } = layer;
+    if (
+      rect.x + rect.width > x &&
+      rect.x < x + width &&
+      rect.y + rect.height > y &&
+      rect.y < y + height
+    ) {
+      ids.push(layerId);
+    }
+  }
+  return ids;
+}
